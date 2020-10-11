@@ -1,0 +1,9 @@
+.DS_Store
+sapper/node_modules/
+sapper/src/node_modules/@sapper/
+yarn-error.log
+sapper/__sapper__/
+.env*
+env/
+__pycache__/
+*.pyc
