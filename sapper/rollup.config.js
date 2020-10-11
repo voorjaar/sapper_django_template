@@ -23,7 +23,8 @@ export default {
 		plugins: [
 			replace({
 				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				'process.env.API_URL': process.env.API_CLIENT_URL
 			}),
 			svelte({
 				dev,
@@ -68,7 +69,8 @@ export default {
 		plugins: [
 			replace({
 				'process.browser': false,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				'process.env.API_URL': process.env.API_SERVER_URL
 			}),
 			svelte({
 				generate: 'ssr',

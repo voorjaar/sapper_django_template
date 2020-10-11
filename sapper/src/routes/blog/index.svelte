@@ -1,13 +1,24 @@
-<script context="module">
-	export function preload() {
-		return this.fetch(`blog.json`).then(r => r.json()).then(posts => {
-			return { posts };
-		});
+<script context='module'>
+	import api from '../../api';
+	export async function preload() {
+		const posts = await api.get(`list`);
+		return { posts }
 	}
 </script>
 
 <script>
-	export let posts;
+	// import api from '../../api';
+	// import {onMount} from 'svelte';
+	export let posts = [];
+	// onMount(async ()=>{
+	// 	api.get(`list`).then(res=>{
+	// 		console.log(res);
+	// 	});
+	// 	// console.log(posts);
+	// 	// return { posts };
+	// })
+	
+	
 </script>
 
 <style>

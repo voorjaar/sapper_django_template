@@ -18,6 +18,18 @@ services:
             - ./.env.dev
         depends_on: 
             - postgres
+    
+    sapper:
+        build: ./sapper
+        command: bash -c "npm run dev"
+        ports:
+            - 3000:3000
+            - 10000:10000
+        env_file:
+            - ./.env.dev
+        depends_on:
+            - django
+
 
 volumes:
     postgres_data:

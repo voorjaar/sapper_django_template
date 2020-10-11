@@ -24,7 +24,9 @@ services:
             - postgres
     
     nginx:
-        build: ./nginx
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile.prod
         volumes:
             - static_volume:/home/app/web/staticfiles
         ports:

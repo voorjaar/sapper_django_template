@@ -2,7 +2,7 @@
 FROM python:3.8.5-alpine
 
 # set work directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/django
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -21,4 +21,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # run entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/django/entrypoint.sh"]

@@ -8,13 +8,17 @@
 
     docker-compose up -d --build
 
-2. Run the migrations:
+2. Create the databse
+
+    docker-compose exec postgres psql --username=django --dbname=django_dev
+
+3. Run the migrations:
 
     docker-compose exec django python manage.py migrate --noinput
 
-3. Test it out at [http://localhost:8000](http://localhost:8000).
+4. Test it out at [http://localhost:3000](http://localhost:3000) and [http://localhost:8000](http://localhost:8000).
 
-4. Bring down the containers(and the associated volumes with the -v flag):
+5. Bring down the containers(and the associated volumes with the -v flag):
 
     docker-compose down -v
 
