@@ -43,9 +43,12 @@ RUN addgroup -S app && adduser -S app -G app
 # create the appropriate directories
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
+ENV STATIC_HOME=/home/app/web/staticfiles
+ENV DJANGO_HOME=/home/app/web/django
 RUN mkdir $APP_HOME
-RUN mkdir $APP_HOME/staticfiles
-WORKDIR $APP_HOME
+RUN mkdir $DJANGO_HOME
+RUN mkdir $STATIC_HOME
+WORKDIR $DJANGO_HOME
 
 # install dependencies
 RUN apk update && apk add libpq
@@ -54,16 +57,17 @@ COPY --from=builder /usr/src/app/django/requirements.prod.txt .
 RUN pip install --no-cache /wheels/*
 
 # copy entrypoint-prod.sh
-COPY ./entrypoint.prod.sh $APP_HOME
+COPY ./entrypoint.prod.sh $DJANGO_HOME
 
 # copy project
-COPY . $APP_HOME
+COPY . $DJANGO_HOME
 
 # chown all the files to the app user
-RUN chown -R app:app $APP_HOME
+RUN chown -R app:app $DJANGO_HOME
+RUN chown -R app:app $STATIC_HOME
 
 # change to the app user
 USER app
 
 # run entrypoint.prod.sh
-ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
+ENTRYPOINT ["/home/app/web/django/entrypoint.prod.sh"]

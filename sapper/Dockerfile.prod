@@ -1,0 +1,41 @@
+# build the sapper app
+FROM node:lts-alpine as builder
+WORKDIR /usr/src/app/sapper/build
+COPY . .
+ARG API_SERVER_URL
+ARG API_CLIENT_URL
+RUN npm install --no-audit --unsafe-perm
+RUN export API_CLIENT_URL=$API_CLIENT_URL &&  export API_SERVER_URL=$API_SERVER_URL && npm run build
+
+# install prod dependencies
+FROM node:lts-alpine as dependencies
+WORKDIR /usr/src/app/sapper/dependencies
+COPY package*.json ./
+RUN npm ci --prod
+
+#########
+# FINAL #
+#########
+
+FROM node:lts-alpine
+# create directory for the app user
+RUN mkdir -p /home/app
+# create the app user
+RUN addgroup -S app && adduser -S app -G app
+
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+ENV SAPPER_HOME=/home/app/web/sapper
+RUN mkdir $APP_HOME
+RUN mkdir $SAPPER_HOME
+WORKDIR $SAPPER_HOME
+
+COPY --from=builder /usr/src/app/sapper/build/__sapper__ ./__sapper__
+COPY --from=builder /usr/src/app/sapper/build/static ./static
+COPY --from=dependencies /usr/src/app/sapper/dependencies/node_modules ./node_modules
+
+# chown all the files to the app user, this user has been created in django app
+RUN chown -R app:app $SAPPER_HOME
+
+# change to the app user
+USER app

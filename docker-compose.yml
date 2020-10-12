@@ -21,7 +21,7 @@ services:
     
     sapper:
         build: ./sapper
-        command: bash -c "npm run dev"
+        command: npm run dev
         ports:
             - 3000:3000
             - 10000:10000

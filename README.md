@@ -16,7 +16,7 @@
 
     docker-compose exec django python manage.py migrate --noinput
 
-4. Test it out at [http://localhost:3000](http://localhost:3000) and [http://localhost:8000](http://localhost:8000).
+4. Test it out at [http://localhost:3000](http://localhost:3000) and [http://localhost:8000/admin](http://localhost:8000/admin).
 
 5. Bring down the containers(and the associated volumes with the -v flag):
 

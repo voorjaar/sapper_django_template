@@ -23,10 +23,23 @@ services:
         depends_on: 
             - postgres
     
-    nginx:
-        build:
-            context: ./nginx
+    sapper:
+        build: 
+            context: ./sapper
             dockerfile: Dockerfile.prod
+            args:
+                API_SERVER_URL: http://django:8000/api/article
+                API_CLIENT_URL: http://localhost:1337/api/article
+        command: node __sapper__/build
+        expose:
+            - 3000
+        env_file:
+            - ./.env.prod
+        depends_on:
+            - django
+    
+    nginx:
+        build: ./nginx
         volumes:
             - static_volume:/home/app/web/staticfiles
         ports:

@@ -30,7 +30,6 @@ polka() // You can also use Express
 		sapper.middleware({
 			session: (req, res) => {
 				return ({
-					api: process.env.API_URI,
 					token: req.session.token,
 					user: req.session.user
 				})
